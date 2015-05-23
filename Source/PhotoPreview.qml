@@ -3,12 +3,11 @@ import QtMultimedia 5.4
 
 
 Item {
-    property alias image : preview.source
+    property alias source : preview.source
     signal closed
 
     Image {
         id: preview
-        source: image
         anchors.fill : parent
         fillMode: Image.PreserveAspectFit
         smooth: true

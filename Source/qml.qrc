@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>MainForm.ui.qml</file>
         <file>PhotoPreview.qml</file>
+        <file>MainView.qml</file>
     </qresource>
 </RCC>
