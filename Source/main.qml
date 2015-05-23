@@ -27,7 +27,6 @@ Rectangle
                 StateChangeScript {
                     script: {
                         console.log("PhotoPreview mode")
-
                         //Capture Image and set Path + Name
                         camera.imageCapture.captureToLocation("./Output/" + Qt.formatDateTime(new Date(), "yyyyMMdd.hh:mm:ss")+".jpg");
                         console.log("ImageName: "+ Qt.formatDateTime(new Date(), "yyyyMMdd.hh:mm:ss")+".jpg")
@@ -74,6 +73,14 @@ Rectangle
         onClosed: views.state = "PhotoCapture"
         visible: views.state == "PhotoPreview"
         focus: visible
+    }
+
+
+    LastImages {
+    id:lastImages
+    anchors.fill: parent
+    visible: views.state == "LastImages"
+    focus: false
     }
 
 
