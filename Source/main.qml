@@ -1,6 +1,7 @@
 import QtQuick 2.4
 import QtQuick.Window 2.2
 import QtMultimedia 5.4
+import QtQml 2.2
 
 Rectangle
 {
@@ -26,8 +27,10 @@ Rectangle
                 StateChangeScript {
                     script: {
                         console.log("PhotoPreview mode")
-                        //Capture Image
-                        camera.imageCapture.capture()
+
+                        //Capture Image and set Path + Name
+                        camera.imageCapture.captureToLocation("./Output/" + Qt.formatDateTime(new Date(), "yyyyMMdd.hh:mm:ss")+".jpg");
+                        console.log("ImageName: "+ Qt.formatDateTime(new Date(), "yyyyMMdd.hh:mm:ss")+".jpg")
                         camera.stop()
                     }
                 }
@@ -42,7 +45,7 @@ Rectangle
             onImageCaptured: {
                 photoPreview.source = preview
                 views.state = "PhotoPreview"
-                console.log("bla")
+                console.log("PhotoPreview")
             }
         }
     }
