@@ -4,11 +4,14 @@
 #include <QQmlEngine>
 #include <QDir>
 #include <QDebug>
+#include <QtDeclarative/qdeclarativepropertymap.h>
+#include <QQmlContext>
+
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
-    QQuickView view;
+    QQuickView* view = new QQuickView;
 
     QDir dir("./Output");
        if (!dir.exists())
@@ -17,12 +20,13 @@ int main(int argc, char *argv[])
            dir.mkpath(".");
        }
 
+    view->setResizeMode(QQuickView::SizeRootObjectToView);
+    view->rootContext()->setContextProperty("absImagePath", dir.absolutePath());
+    view->setSource(QUrl("qrc:///main.qml"));
 
-    view.setResizeMode(QQuickView::SizeRootObjectToView);
-    QObject::connect(view.engine(), SIGNAL(quit()), qApp, SLOT(quit()));
-    view.setSource(QUrl("qrc:///main.qml"));
-    view.resize(800, 600);
-    view.show();
+    view->resize(800, 600);
+    QObject::connect(view->engine(), SIGNAL(quit()), qApp, SLOT(quit()));
+    view->show();
     return app.exec();
 }
 

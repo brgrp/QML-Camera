@@ -17,7 +17,6 @@ Rectangle
                 StateChangeScript {
                     script: {
                         camera.captureMode = Camera.CaptureStillImage
-                        camera.start()
                         console.log("PhotoCapture mode")
                     }
                 }
@@ -28,15 +27,14 @@ Rectangle
                     script: {
                         console.log("PhotoPreview mode")
                         //Capture Image and set Path + Name
-                        camera.imageCapture.captureToLocation("./Output/" + Qt.formatDateTime(new Date(), "yyyyMMdd.hh:mm:ss")+".jpg");
-                        console.log("ImageName: "+ Qt.formatDateTime(new Date(), "yyyyMMdd.hh:mm:ss")+".jpg")
-                        camera.stop()
+                        camera.imageCapture.captureToLocation(absImagePath + "/"+ Qt.formatDateTime(new Date(), "yyyyMMdd.hh:mm:ss")+".jpg");
+                        console.log("Captured Image Path: "+camera.imageCapture.capturedImagePath.toString())
                     }
                 }
             }
         ]
 
-    //->InputSource
+    //->InputSource // Members
     Camera {
     id: camera
     captureMode: Camera.CaptureStillImage
@@ -46,43 +44,46 @@ Rectangle
                 views.state = "PhotoPreview"
                 console.log("PhotoPreview")
             }
+            onImageSaved: {
+                imagePaths.insert(0,{"path": path})
+            }
         }
     }
 
+    ListModel {
+        id: imagePaths
+    }
+
+
     //-> Layout
     MainView {
-        id: mainForm
+        id: mainView
         anchors.fill: parent
         visible: views.state == "PhotoCapture"
 
         MouseArea {
-
-            id:mainForm_mouseArea_live
+            id:mainView_mouseArea_live
             hoverEnabled: false
-            anchors.fill: parent
+            height: parent.height*0.75
+            width: parent.width
             onClicked: {
-                console.log("Clicked")
+                console.log("Clicked: "+ absImagePath)
                 views.state="PhotoPreview"
             }
         }
     }
 
+
     PhotoPreview{
         id: photoPreview
         anchors.fill: parent
-        onClosed: views.state = "PhotoCapture"
+        onClosed: {
+
+            views.state = "PhotoCapture"
+            mainView.update()
+        }
         visible: views.state == "PhotoPreview"
         focus: visible
     }
-
-
-    LastImages {
-    id:lastImages
-    anchors.fill: parent
-    visible: views.state == "LastImages"
-    focus: false
-    }
-
-
 
 }
