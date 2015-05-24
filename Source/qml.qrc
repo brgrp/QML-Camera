@@ -4,6 +4,5 @@
         <file>PhotoPreview.qml</file>
         <file>MainView.qml</file>
         <file>LastImages.qml</file>
-        <file>SimpleImage.qml</file>
     </qresource>
 </RCC>
