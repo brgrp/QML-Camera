@@ -1,23 +1,28 @@
 import QtQuick 2.0
 import QtMultimedia 5.0
 
+
 Rectangle {
     id: mainForm
-    width: 800
-    height: 600
-
+    anchors.fill: parent
     signal closed
-    signal shoot
+    signal update
+    signal noaction
 
+    onNoaction: {
+        lastImages.startPlayBack()
+    }
+
+    onUpdate: {
+        lastImages.updateList()
+    }
 
     Grid {
             id: live
-            y: 0
-            height: 478
-            anchors.right: parent.horizontalCenter
-            anchors.rightMargin: -400
-            anchors.left: parent.left
-            anchors.leftMargin: 0
+            height: parent.height*0.75
+            width: parent.width
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
 
             VideoOutput {
                 id: viewfinder
@@ -28,20 +33,17 @@ Rectangle {
                 height: parent.height
                 source: camera
             }
+
         }
 
-        GridView {
-            id: view
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 0
-            anchors.top: live.bottom
-            anchors.topMargin: 0
-            anchors.left: parent.left
-            anchors.leftMargin: 0
-            anchors.right: parent.right
-            anchors.rightMargin: 0
-            cellHeight: 70
-        }
+    LastImages {
+        id:lastImages
+        height: mainForm.height-live.height
+        width: parent.width
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        visible: views.state === "PhotoCapture"
+    }
 
 
 
