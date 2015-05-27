@@ -1,7 +1,8 @@
 import QtQuick 2.0
 
-Rectangle
+Item
 {
+    id:last_images
     signal updateList
     signal startPlayBack
 
@@ -23,14 +24,43 @@ Rectangle
         rightMargin: 10
         highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
 
+
         model: imagePaths
-        delegate: Image { source: "file://"+path; asynchronous: true; fillMode: Image.PreserveAspectFit; height: parent.height; anchors.topMargin: 10 }
+        delegate: Image {
+            source: "file://"+path;
+            asynchronous: true;
+            fillMode: Image.PreserveAspectFit;
+            height: parent.height;
+            anchors.topMargin: 10
+
+            MouseArea {
+                id:mainView_mouseArea_Lastimage
+                hoverEnabled: false
+                anchors.fill: parent
+
+                onClicked: {
+                    lastImages_ListView.currentIndex = index
+                    last_images.forceActiveFocus()
+                    console.log("CurrentIndex: " + lastImages_ListView.currentIndex +  "Size: ",lastImages_ListView.count)
+                    console.log("CurrentPath: " + imagePaths.get(lastImages_ListView.currentIndex ).path)
+                    photoPreview.source = "file://"+ imagePaths.get(lastImages_ListView.currentIndex ).path
+                    views.state="PhotoReview"
+                }
+            }
+        }
+
         Rectangle {
             anchors.fill: parent
             color: "grey"
             opacity: 0.1
             border.color: Qt.lighter(color)
+
         }
     }
+
+
+
+
+
 }
 
