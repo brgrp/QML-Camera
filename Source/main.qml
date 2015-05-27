@@ -28,10 +28,20 @@ Rectangle
                         console.log("PhotoPreview mode")
                         //Capture Image and set Path + Name
                         camera.imageCapture.captureToLocation(absImagePath + "/"+ Qt.formatDateTime(new Date(), "yyyyMMdd.hh:mm:ss")+".jpg");
-                        console.log("Captured Image Path: "+camera.imageCapture.capturedImagePath.toString())
+                        console.log("Captured Image Path: "+ camera.imageCapture.capturedImagePath.toString())
                     }
                 }
+            },
+        State {
+            name: "PhotoReview"
+            StateChangeScript {
+                script: {
+                    console.log("PhotoReview mode")
+                    //Display old image
+
+                }
             }
+        }
         ]
 
     //->InputSource // Members
@@ -54,15 +64,17 @@ Rectangle
         id: imagePaths
     }
 
-
     //-> Layout
     MainView {
         id: mainView
+        anchors.rightMargin: 0
+        anchors.bottomMargin: 0
         anchors.fill: parent
         visible: views.state == "PhotoCapture"
 
         MouseArea {
             id:mainView_mouseArea_live
+            visible: parent.visible
             hoverEnabled: false
             height: parent.height*0.75
             width: parent.width
@@ -71,6 +83,9 @@ Rectangle
                 views.state="PhotoPreview"
             }
         }
+
+
+
     }
 
 
@@ -78,11 +93,10 @@ Rectangle
         id: photoPreview
         anchors.fill: parent
         onClosed: {
-
             views.state = "PhotoCapture"
             mainView.update()
         }
-        visible: views.state == "PhotoPreview"
+        visible: views.state == "PhotoPreview" || views.state == "PhotoReview"
         focus: visible
     }
 
