@@ -6,7 +6,9 @@
 #include <QDebug>
 #include <QtDeclarative/qdeclarativepropertymap.h>
 #include <QQmlContext>
+#include <QMultimedia>
 
+#include "cameraselector.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,6 +21,14 @@ int main(int argc, char *argv[])
            qDebug()<<QString("Output path does not exist. Create path:").append(dir.absolutePath());
            dir.mkpath(".");
        }
+
+       QList<QCameraInfo> cameras = QCameraInfo::availableCameras();
+       foreach (const QCameraInfo &cameraInfo, cameras)
+           qDebug() << cameraInfo.deviceName();
+
+//       CameraSelector selector;
+//       selector.setSelectedCameraDevice(1);
+    qmlRegisterType<CameraSelector>("cameraSelector", 1, 0, "CameraSelector");
 
     view->setResizeMode(QQuickView::SizeRootObjectToView);
     view->rootContext()->setContextProperty("absImagePath", dir.absolutePath());

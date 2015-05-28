@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Window 2.2
 import QtMultimedia 5.4
 import QtQml 2.2
+import cameraSelector 1.0
 
 Rectangle
 {
@@ -17,6 +18,8 @@ Rectangle
                 StateChangeScript {
                     script: {
                         camera.captureMode = Camera.CaptureStillImage
+                        //SetCaptureDevice
+
                         console.log("PhotoCapture mode")
                     }
                 }
@@ -37,8 +40,6 @@ Rectangle
             StateChangeScript {
                 script: {
                     console.log("PhotoReview mode")
-                    //Display old image
-
                 }
             }
         }
@@ -47,30 +48,40 @@ Rectangle
     //->InputSource // Members
     Camera {
     id: camera
-    captureMode: Camera.CaptureStillImage
-        imageCapture {
+        captureMode: Camera.CaptureStillImage
+
+            imageCapture {
             onImageCaptured: {
                 photoPreview.source = preview
                 views.state = "PhotoPreview"
                 console.log("PhotoPreview")
-            }
+
+                }
             onImageSaved: {
                 imagePaths.insert(0,{"path": path})
             }
         }
     }
 
+    CameraSelector {
+        id: selector
+        cameraObject: camera
+    }
+
     ListModel {
         id: imagePaths
     }
 
-    //-> Layout
+
+   //-> Layout
     MainView {
         id: mainView
         anchors.rightMargin: 0
         anchors.bottomMargin: 0
         anchors.fill: parent
         visible: views.state == "PhotoCapture"
+
+
 
         MouseArea {
             id:mainView_mouseArea_live
@@ -86,6 +97,23 @@ Rectangle
 
 
 
+    }
+
+    Rectangle{
+        color:"red"
+        width: 100
+        height: 100
+        y:100
+
+        MouseArea
+        {
+            anchors.fill: parent
+            onClicked: {
+                selector.selectedCameraDevice= 1;
+            }
+
+
+        }
     }
 
 
