@@ -5,15 +5,10 @@ Item
 {
     id:last_images
     signal updateList
-    signal startPlayBack
 
     onUpdateList: {
         lastImages_ListView.positionViewAtBeginning();
-        console.log("lastImages_ListView.positionViewAtEnd();")
-    }
-
-    onStartPlayBack: {
-        startPlayBack()
+        console.log("lastImages_ListView.positionViewAtBeginning();")
     }
 
     ListView {
@@ -25,29 +20,28 @@ Item
         rightMargin: 10
         highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
 
-
         model: imagePaths
         delegate: Image {
-            source: "file://"+path;
+            source: "file://"+ imagepath
             asynchronous: true;
             fillMode: Image.PreserveAspectFit;
             height: parent.height;
             anchors.topMargin: 10
 
-            MouseArea {
-                id:mainView_mouseArea_Lastimage
-                hoverEnabled: false
-                anchors.fill: parent
+//            MouseArea {
+//                id:mainView_mouseArea_Lastimage
+//                hoverEnabled: false
+//                anchors.fill: parent
 
-                onClicked: {
-                    lastImages_ListView.currentIndex = index
-                    last_images.forceActiveFocus()
-                    console.log("CurrentIndex: " + lastImages_ListView.currentIndex +  "Size: ",lastImages_ListView.count)
-                    console.log("CurrentPath: " + imagePaths.get(lastImages_ListView.currentIndex ).path)
-                    photoPreview.source = "file://"+ imagePaths.get(lastImages_ListView.currentIndex ).path
-                    views.state="PhotoReview"
-                }
-            }
+//                onClicked: {
+//                    lastImages_ListView.currentIndex = index
+//                    last_images.forceActiveFocus()
+//                    console.log("CurrentIndex: " + lastImages_ListView.currentIndex +  "Size: ",lastImages_ListView.count)
+//                    console.log("CurrentPath: " + imagePaths.get(lastImages_ListView.currentIndex ).path)
+//                    photoPreview.source = imagePaths.get(lastImages_ListView.currentIndex ).path
+//                    views.state="PhotoReview"
+//                }
+           // }
         }
 
         Rectangle {
@@ -55,7 +49,6 @@ Item
             color: "grey"
             opacity: 0.1
             border.color: Qt.lighter(color)
-
         }
     }
 
