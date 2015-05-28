@@ -26,15 +26,19 @@ int CameraSelector::setSelectedCameraDevice(int cameraId)
     m_camera->unload();
 
     m_deviceSelector->setSelectedDevice(cameraId);
+    return 1;
 }
 
 QObject* CameraSelector::readCameraObject()
 {
+
 
 }
 
 int CameraSelector::selectedDevice()
 {
 
+    return 0;
 }
+
 
