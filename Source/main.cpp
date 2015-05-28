@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
        if (!dir.exists())
        {
            qDebug()<<QString("Output path does not exist. Create path:").append(dir.absolutePath());
-           dir.mkpath(".");
+           dir.mkpath("./");
        }
 
        QList<QCameraInfo> cameras = QCameraInfo::availableCameras();
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<CameraSelector>("cameraSelector", 1, 0, "CameraSelector");
 
     view->setResizeMode(QQuickView::SizeRootObjectToView);
-    view->rootContext()->setContextProperty("absImagePath", dir.absolutePath());
+    view->rootContext()->setContextProperty("absImagePath", dir.absolutePath().append("/"));
     view->setSource(QUrl("qrc:///main.qml"));
 
     view->resize(800, 600);

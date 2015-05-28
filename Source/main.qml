@@ -28,15 +28,18 @@ Rectangle
                     script: {
                         console.log("PhotoPreview mode")
                         //Capture Image and set Path + Name
+                        console.log("absImagePath: "+ absImagePath)
 
-                        camera.imageCapture.captureToLocation(absImagePath )
+
+                        camera.imageCapture.captureToLocation(absImagePath + Qt.formatDateTime(new Date(), "yyyyMMdd.hh:mm:ss")+".jpg")
+                        console.log("Captured Image Path: "+ camera.imageCapture.capturedImagePath.toString())
                         //-> This one fails on windows..
                         //camera.imageCapture.captureToLocation(directory + "/"+ Qt.formatDateTime(new Date(), "yyyyMMdd.hh:mm:ss")+".jpg");
 
                         //-> Set Meta Description
                         camera.imageCapture.setMetadata("Description", "BigParty")
 
-                        console.log("Captured Image Path: "+ camera.imageCapture.capturedImagePath.toString())
+
                     }
                 }
             },
