@@ -18,8 +18,6 @@ Rectangle
                 StateChangeScript {
                     script: {
                         camera.captureMode = Camera.CaptureStillImage
-                        //SetCaptureDevice
-
                         console.log("PhotoCapture mode")
                     }
                 }
@@ -30,7 +28,14 @@ Rectangle
                     script: {
                         console.log("PhotoPreview mode")
                         //Capture Image and set Path + Name
-                        camera.imageCapture.captureToLocation(absImagePath + "/"+ Qt.formatDateTime(new Date(), "yyyyMMdd.hh:mm:ss")+".jpg");
+
+                        camera.imageCapture.captureToLocation(absImagePath )
+                        //-> This one fails on windows..
+                        //camera.imageCapture.captureToLocation(directory + "/"+ Qt.formatDateTime(new Date(), "yyyyMMdd.hh:mm:ss")+".jpg");
+
+                        //-> Set Meta Description
+                        camera.imageCapture.setMetadata("Description", "BigParty")
+
                         console.log("Captured Image Path: "+ camera.imageCapture.capturedImagePath.toString())
                     }
                 }
@@ -46,6 +51,15 @@ Rectangle
         ]
 
     //->InputSource // Members
+    CameraSelector {
+        id: selector
+        cameraObject: camera
+    }
+
+    ListModel {
+        id: imagePaths
+    }
+
     Camera {
     id: camera
         captureMode: Camera.CaptureStillImage
@@ -58,19 +72,13 @@ Rectangle
 
                 }
             onImageSaved: {
-                imagePaths.insert(0,{"path": path})
+                imagePaths.insert(0,{"imagepath": path})
+                console.log("onImageSaved path: ",path)
             }
         }
     }
 
-    CameraSelector {
-        id: selector
-        cameraObject: camera
-    }
 
-    ListModel {
-        id: imagePaths
-    }
 
 
    //-> Layout
@@ -80,8 +88,6 @@ Rectangle
         anchors.bottomMargin: 0
         anchors.fill: parent
         visible: views.state == "PhotoCapture"
-
-
 
         MouseArea {
             id:mainView_mouseArea_live
@@ -93,26 +99,6 @@ Rectangle
                 console.log("Clicked: "+ absImagePath)
                 views.state="PhotoPreview"
             }
-        }
-
-
-
-    }
-
-    Rectangle{
-        color:"red"
-        width: 100
-        height: 100
-        y:100
-
-        MouseArea
-        {
-            anchors.fill: parent
-            onClicked: {
-                selector.selectedCameraDevice= 1;
-            }
-
-
         }
     }
 
