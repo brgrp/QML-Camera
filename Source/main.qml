@@ -30,9 +30,7 @@ Rectangle
                         //Capture Image and set Path + Name
                         console.log("absImagePath: "+ absImagePath)
 
-
                         camera.imageCapture.captureToLocation(absImagePath + Qt.formatDateTime(new Date(), "yyyyMMdd.hh:mm:ss")+".jpg")
-                        console.log("Captured Image Path: "+ camera.imageCapture.capturedImagePath.toString())
                         //-> This one fails on windows..
                         //camera.imageCapture.captureToLocation(directory + "/"+ Qt.formatDateTime(new Date(), "yyyyMMdd.hh:mm:ss")+".jpg");
 
@@ -70,8 +68,10 @@ Rectangle
             imageCapture {
             onImageCaptured: {
                 photoPreview.source = preview
+                console.log("Captured Image Path: "+ camera.imageCapture.capturedImagePath.toString())
+
                 views.state = "PhotoPreview"
-                console.log("PhotoPreview")
+                console.log("PhotoPreview" )
 
                 }
             onImageSaved: {
