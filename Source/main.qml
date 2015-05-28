@@ -82,8 +82,6 @@ Rectangle
     }
 
 
-
-
    //-> Layout
     MainView {
         id: mainView
@@ -115,6 +113,20 @@ Rectangle
         }
         visible: views.state == "PhotoPreview" || views.state == "PhotoReview"
         focus: visible
+    }
+
+    ListView {
+        anchors.fill: parent
+
+        model: QtMultimedia.availableCameras
+        delegate: Text {
+            text: modelData.displayName
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: camera.deviceId = modelData.deviceId
+            }
+        }
     }
 
 }
