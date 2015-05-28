@@ -28,20 +28,20 @@ Item
             height: parent.height;
             anchors.topMargin: 10
 
-//            MouseArea {
-//                id:mainView_mouseArea_Lastimage
-//                hoverEnabled: false
-//                anchors.fill: parent
+            MouseArea {
+                     id:mainView_mouseArea_Lastimage
+                     hoverEnabled: false
+                     anchors.fill: parent
 
-//                onClicked: {
-//                    lastImages_ListView.currentIndex = index
-//                    last_images.forceActiveFocus()
-//                    console.log("CurrentIndex: " + lastImages_ListView.currentIndex +  "Size: ",lastImages_ListView.count)
-//                    console.log("CurrentPath: " + imagePaths.get(lastImages_ListView.currentIndex ).path)
-//                    photoPreview.source = imagePaths.get(lastImages_ListView.currentIndex ).path
-//                    views.state="PhotoReview"
-//                }
-           // }
+                     onClicked: {
+                         lastImages_ListView.currentIndex = index
+                         last_images.forceActiveFocus()
+                         console.log("CurrentIndex: " + lastImages_ListView.currentIndex +  "Size: ",lastImages_ListView.count)
+                         console.log("CurrentPath: " + imagePaths.get(lastImages_ListView.currentIndex ).imagepath)
+                         photoPreview.source = "file://"+ imagePaths.get(lastImages_ListView.currentIndex ).imagepath
+                         views.state="PhotoReview"
+                     }
+                 }
         }
 
         Rectangle {
